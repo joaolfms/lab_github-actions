@@ -78,7 +78,7 @@ jobs:
       - name: Push para o Docker Hub
         uses: actions-hub/docker@master
         with:
-          args: push ${{ secret.DOCKER_USERNAME }}/beerlog:latest
+          args: push joaolfms/beerlog:latest
 
       # Deploy the Docker image to the GKE cluster
       - name: Deploy
