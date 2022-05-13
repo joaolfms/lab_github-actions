@@ -67,12 +67,12 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Buildando a imagem
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/beerlog:lates --file docker/Dockerfile .
+        run: docker build -t joaolfms/beerlog:2.0 --file docker/Dockerfile .
 
       - name: Push para o Docker Hub
         uses: actions-hub/docker@master
         with:
-          args: push ${{ secrets.DOCKER_USERNAME }}/beerlog:1.0.0
+          args: push joaolfms/beerlog:2.0
 
       # Deploy the Docker image to the GKE cluster
       - name: Deploy
