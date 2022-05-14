@@ -1,8 +1,6 @@
 name: CI
 on:
   push:
-    branches:
-      - "*"
   workflow_dispatch:
 
 env:
@@ -10,6 +8,7 @@ env:
   GKE_CLUSTER: cluster-1    # Add your cluster name here.
   GKE_ZONE: us-central1-c   # Add your cluster zone here.
   DEPLOYMENT_NAME: beerlog # Add your deployment name here.
+  IMAGE_TAG: ${{ github.sha }}
 
 jobs:
   test:
@@ -67,12 +66,19 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Buildando a imagem
-        run: docker build -t joaolfms/beerlog:2.0 --file docker/Dockerfile .
+        run: docker build -t joaolfms/beerlog:${IMAGE_TAG} --file docker/Dockerfile .
 
       - name: Push para o Docker Hub
         uses: actions-hub/docker@master
         with:
-          args: push joaolfms/beerlog:2.0
+          args: push joaolfms/beerlog:${IMAGE_TAG}
+
+      - name: Update Deployment Image
+        run: |-
+          sudo add-apt-repository ppa:rmescandon/yq
+          sudo apt-get update
+          sudo apt-get install -y yq
+          yq e -i '.spec.template.spec.containers[0].image' 'joaolfms/beerlog:${IMAGE_TAG}' deployment.yaml
 
       # Deploy the Docker image to the GKE cluster
       - name: Deploy
