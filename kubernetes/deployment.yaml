@@ -5,7 +5,7 @@ metadata:
     app: beerlog
   name: beerlog
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: beerlog
@@ -16,7 +16,7 @@ spec:
         app: beerlog
     spec:
       containers:
-      - image: linuxtips/beerlog:2.0
+      - image: joaolfms/beerlog:2.0
         name: beerlog
         ports:
         - containerPort: 8000
