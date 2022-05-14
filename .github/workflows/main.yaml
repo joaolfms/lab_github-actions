@@ -6,7 +6,7 @@ on:
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_CLUSTER: cluster-1    # Add your cluster name here.
-  GKE_ZONE: australia-southeast2-c   # Add your cluster zone here.
+  GKE_ZONE: us-central1-c   # Add your cluster zone here.
   DEPLOYMENT_NAME: beerlog # Add your deployment name here.
   IMAGE_TAG: ${{ github.sha }}
 
@@ -79,7 +79,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y yq
           export IMAGE_NAME=joaolfms/beerlog:${IMAGE_TAG}
-          yq e -i '.spec.template.spec.containers[0].image = env(IMAGE_NAME)' kubernetes/deployment.yaml
+          yq e -i '.spec.template.spec.containers[0].image = env(IMAGE_TAG)' kubernetes/deployment.yaml
 
       # Deploy the Docker image to the GKE cluster
       - name: Deploy
