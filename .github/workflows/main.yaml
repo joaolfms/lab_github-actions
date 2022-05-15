@@ -60,7 +60,7 @@ jobs:
           project_id: ${{ secrets.GKE_PROJECT }}
       
       - name: Conect-to-cluster
-        run: ${{ GCLOUD_COMMAND }}
+        run: gcloud container clusters get-credentials ${{ env.GKE_CLUSTER }} --zone ${{ env.GKE_ZONE }} --project ${{ env.PROJECT_ID }}
        
       
       - name: Login no Docker Hub
