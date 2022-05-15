@@ -10,34 +10,34 @@ env:
   DEPLOYMENT_NAME: beerlog # Add your deployment name here.
   IMAGE_TAG: ${{ github.sha }}
 
-jobs:
-  test:
-    strategy:
-      fail-fast: true
-      matrix:
-        python-version: ['3.8', '3.10']
-        os: [ubuntu-latest]
-    runs-on: ${{matrix.os}}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-        with:
-          python-version: ${{matrix.python-version}}
-      - name: Install Poetry
-        run: pip install --upgrade pip && pip install poetry
+#jobs:
+#  test:
+#    strategy:
+#      fail-fast: true
+#      matrix:
+#        python-version: ['3.8', '3.10']
+#        os: [ubuntu-latest]
+#    runs-on: ${{matrix.os}}
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: actions/setup-python@v2
+#        with:
+#          python-version: ${{matrix.python-version}}
+#      - name: Install Poetry
+#        run: pip install --upgrade pip && pip install poetry
+#
+#      - name: Install Project
+#        run: poetry install
+#      
+#      - name: Look for style errors
+#        run: poetry run flake8 beerlog
+#      
+#      - name: Look for auto format errors
+#        run: poetry run black -l 79 --check --diff beerlog tests
+#      
+#      - name: Run tests
+#        run: poetry run pytest -v --junitxml=test-result.xml
 
-      - name: Install Project
-        run: poetry install
-      
-      - name: Look for style errors
-        run: poetry run flake8 beerlog
-      
-      - name: Look for auto format errors
-        run: poetry run black -l 79 --check --diff beerlog tests
-      
-      - name: Run tests
-        run: poetry run pytest -v --junitxml=test-result.xml
-      
   credentials:
     runs-on: ubuntu-latest
     needs: test
@@ -85,10 +85,12 @@ jobs:
           helm repo update
       
       - name: nginx-helm-install
-        run: helm install -n nginx-ingress --create-namespace ingress-nginx ingress-nginx/ingress-nginx
+        run: |-
+          helm install ingress-nginx ingress-nginx/ingress-nginx
 
       - name: cert-manager-helm-install
-        run: helm install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.2.0 --create-namespace --set installCRDs=true
+        run: |-
+          helm install cert-manager jetstack/cert-manager --version v1.2.0 --set installCRDs=true
 
   deploy:
     runs-on: ubuntu-latest
