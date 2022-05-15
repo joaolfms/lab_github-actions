@@ -84,6 +84,9 @@ jobs:
     needs: credentials
     steps:
 
+      - name: Check out code
+        uses: actions/checkout@v2
+
       - name: Buildando a imagem
         run: docker build -t joaolfms/beerlog:${IMAGE_TAG} --file docker/Dockerfile .
 
