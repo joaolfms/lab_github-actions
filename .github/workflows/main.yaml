@@ -64,6 +64,12 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      
+      - name: nginx-helm-install
+        run: helm install -n nginx-ingress --create-namespace ingress-nginx ingress-nginx/ingress-nginx
+
+      - name: cert-manager-helm-install
+        run: helm install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.2.0 --create-namespace --set installCRDs=true
 
       - name: Buildando a imagem
         run: docker build -t joaolfms/beerlog:${IMAGE_TAG} --file docker/Dockerfile .
@@ -85,5 +91,6 @@ jobs:
       - name: Deploy
         run: |-
           kubectl apply -f ./kubernetes/
+          kubectl apply -f ./ingress/
           kubectl rollout status deployment/$DEPLOYMENT_NAME
           kubectl get services -o wide
