@@ -38,6 +38,7 @@ env:
 #      - name: Run tests
 #        run: poetry run pytest -v --junitxml=test-result.xml
 
+jobs:
   credentials:
     runs-on: ubuntu-latest
     needs: test
