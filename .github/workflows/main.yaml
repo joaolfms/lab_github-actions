@@ -85,7 +85,7 @@ jobs:
       - name: Deploy
         run: |-
           kubectl apply -f ./kubernetes/
-          kubectl rollout status deployment/$DEPLOYMENT_NAME
+#         kubectl rollout status deployment/$DEPLOYMENT_NAME
           kubectl get services -o wide
 
       - name: Install Helm
@@ -102,7 +102,7 @@ jobs:
           helm repo add jetstack https://charts.jetstack.io
           helm repo update
 
-      - name: GKE-Credentials
+      - name: clurster-GKE-Credentials
         run: |-
           gcloud container clusters get-credentials cluster-1 --zone us-central1-c --project booming-quasar-343617
 
