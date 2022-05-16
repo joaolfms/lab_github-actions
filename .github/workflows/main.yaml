@@ -89,7 +89,7 @@ jobs:
           kubectl get services -o wide
 
 jobs:
-  credentials:
+  helm:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
