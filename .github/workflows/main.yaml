@@ -88,12 +88,6 @@ jobs:
           kubectl rollout status deployment/$DEPLOYMENT_NAME
           kubectl get services -o wide
 
-jobs:
-  helm:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
       - name: Install Helm
         run: |-
           curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -
