@@ -8,7 +8,7 @@ env:
   GKE_CLUSTER: cluster-1    # Add your cluster name here.
   GKE_ZONE: us-central1-c   # Add your cluster zone here.
   DEPLOYMENT_NAME: beerlog # Add your deployment name here.
-  IMAGE_TAG: ${{ github.sha }}
+  
 
 #jobs:
 #  test:
@@ -40,9 +40,13 @@ env:
 
 jobs:
   credentials:
+    env:
+      IMAGE_TAG: ${{ github.sha }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - run: echo $IMAGE_TAG
 
       # Get the GKE credentials so we can deploy to the cluster
       - name: Get-GKE-Credentials  
