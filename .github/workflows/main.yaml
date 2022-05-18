@@ -85,11 +85,13 @@ jobs:
       - name: Deploy
         run: |-
           kubectl apply -f ./kubernetes/
+          kubectl rollout status deployment/$DEPLOYMENT_NAME
           kubectl get services -o wide
 
       - name: Deploy
         run: |-
           kubectl apply -f ./ingress/
+          kubectl rollout status deployment/$DEPLOYMENT_NAME
           kubectl get services -o wide
 
 #      - name: Install Helm
