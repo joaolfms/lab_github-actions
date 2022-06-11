@@ -92,37 +92,3 @@ jobs:
           kubectl apply -f ./kubernetes/
           kubectl rollout status deployment/$DEPLOYMENT_NAME
           kubectl get services -o wide
-
-      - name: Deploy
-        run: |-
-          kubectl apply -f ./ingress/
-          kubectl rollout status deployment/$DEPLOYMENT_NAME
-          kubectl get services -o wide
-
-#      - name: Install Helm
-#        run: |-
-#          curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -
-#          sudo apt-get install apt-transport-https --yes
-#          echo "deb https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
-#          sudo apt-get update
-#          sudo apt-get install helm
-#
-#      - name: helm-add-repository
-#        run: |- 
-#          helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-#          helm repo add jetstack https://charts.jetstack.io
-#          helm repo update
-#
-#      - name: clurster-GKE-Credentials
-#        run: |-
-#          gcloud container clusters get-credentials cluster-1 --zone us-central1-c --project booming-quasar-343617
-#
-#
-#      - name: helm-install-ingress
-#        run: |-
-#          helm install -n nginx-ingress --create-namespace ingress-nginx ingress-nginx/ingress-nginx
-#
-#      - name: helm-install-cert-manager
-#        run: |-
-#          helm install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.2.0 --create-namespace --set installCRDs=true
-#
